@@ -63,20 +63,34 @@ public class LoginForm {
                 String username = usernameField.getText();
                 String password = new String(passwordField.getPassword());
 
-                if (username.equals("aybuke") && password.equals("12345")) {
-                    // Personel sayfasına yönlendir
-                    new PersonnelForm();
-                    frame.dispose();  // Login sayfasını kapat
-                } else if (username.equals("aksoy") && password.equals("6789")) {
-                    // Admin sayfasına yönlendir
-                    new AdminForm();
-                    frame.dispose();  // Login sayfasını kapat
-                } else {
-                    // Hatalı giriş mesajı
+                // Kullanıcı adı ve şifreleri dizi içinde tutuyoruz
+                String[][] users = {
+                        {"aybuke", "12345"},
+                        {"aksoy", "6789"}
+                };
+
+                boolean found = false;
+
+                // Kullanıcı adı ve şifreyi diziden kontrol ediyoruz
+                for (String[] user : users) {
+                    if (username.equals(user[0]) && password.equals(user[1])) {
+                        found = true;
+                        if (username.equals("aybuke")) {
+                            new PersonnelForm();
+                        } else if (username.equals("aksoy")) {
+                            new AdminForm();
+                        }
+                        frame.dispose();
+                        break; // Bulunca döngüyü durdur
+                    }
+                }
+
+                if (!found) {
                     JOptionPane.showMessageDialog(frame, "Yanlış kullanıcı adı veya şifre.", "Hata", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
+
 
         // Forgot Password butonuna tıklandığında hiçbir işlem yapılmaz
         forgotPasswordButton.addActionListener(new ActionListener() {
